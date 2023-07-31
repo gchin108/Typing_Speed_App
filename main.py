@@ -10,25 +10,26 @@ class SpeedTypingTest:
     def __init__(self, root):
         self.root = root
         self.root.geometry('800x600')
+    
         self.root.title('Speed Typing Test')
-
+        self.root.configure(bg='black')
         self.current_sentence = ""
         self.start_time = 0
         self.total_time = 0
         self.correct_words = 0
         self.typing_started = False
 
-        self.sentence_label = tk.Label(self.root, text="", font=('Helvetica', 16), wraplength=600)
+        self.sentence_label = tk.Label(self.root, text="", font=('Helvetica', 16), wraplength=600, bg='black', fg='green')
         self.sentence_label.pack(pady=60)
 
-        self.text_widget = tk.Text(self.root, font=('Helvetica', 16), height=2)
+        self.text_widget = tk.Text(self.root, font=('Helvetica', 16), height=2, bg='black', fg='green', insertbackground='white', borderwidth=0, highlightthickness=0)
         self.text_widget.pack(pady=60)
         self.text_widget.focus_set()
 
-        self.result_label = tk.Label(self.root, text="Type the sentence and press enter", font=('Helvetica', 16))
+        self.result_label = tk.Label(self.root, text="Type the sentence and press enter", font=('Helvetica', 16), bg='black', fg='green')
         self.result_label.pack()
 
-        self.wpm_label = tk.Label(self.root, text="Your Words Per Minute will be shown here", font=('Helvetica', 16))
+        self.wpm_label = tk.Label(self.root, text="Your Words Per Minute will be shown here", font=('Helvetica', 16), bg='black', fg='green')
         self.wpm_label.pack()
 
         self.root.bind('<space>', self.word_check)
@@ -38,15 +39,12 @@ class SpeedTypingTest:
         self.new_sentence()
 
     def new_sentence(self):
-
-        if self.current_sentence != random.choice(programming_facts):
-            self.current_sentence = random.choice(programming_facts)
-            self.sentence_label.config(text=self.current_sentence)
-            self.typing_started = False
-        else:
-            self.current_sentence = random.choice(programming_facts)
-            self.sentence_label.config(text=self.current_sentence)
-            self.typing_started = False
+        new_sentence = random.choice(programming_facts)
+        while new_sentence == self.current_sentence:
+            new_sentence = random.choice(programming_facts)
+        self.current_sentence = new_sentence
+        self.sentence_label.config(text=self.current_sentence)
+        self.typing_started = False
 
     def start_typing(self, event):
         if not self.typing_started:
@@ -76,11 +74,11 @@ class SpeedTypingTest:
         if entered_words[-1] == sentence_words[len(entered_words) - 1]:  # Check last word entered
             self.text_widget.tag_remove('incorrect', '1.0', 'end')
             self.text_widget.tag_add('correct', '1.0', 'end')
-            self.text_widget.tag_config('correct', background="white", foreground="green")
+            self.text_widget.tag_config('correct', background="black", foreground="green")
         else:
             self.text_widget.tag_remove('correct', '1.0', 'end')
             self.text_widget.tag_add('incorrect', '1.0', 'end')
-            self.text_widget.tag_config('incorrect', background="white", foreground="red")
+            self.text_widget.tag_config('incorrect', background="black", foreground="red")
 
 
 root = tk.Tk()
